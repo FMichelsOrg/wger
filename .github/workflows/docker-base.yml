@@ -6,8 +6,6 @@ on:
       - "master"
     paths:
         - 'extras/docker/base/Dockerfile'
-  schedule:
-    - cron: '0 5 1 * *'
   workflow_dispatch:  
 
 jobs:
