@@ -180,6 +180,94 @@ by the US Department of Agriculture. It is extremely complete, with around
     )
 
     #
+    # Health
+    #
+
+    current_medical_reasons_not_to_exercise = models.TextField(
+        verbose_name=_('Current medical reasons not to exercise'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list the current medical resons not ot exercise
+    """
+
+    past_medical_reasons_not_to_exercise = models.TextField(
+        verbose_name=_('Past medical reasons not to exercise'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list the past medical resons not ot exercise
+    """
+
+    current_physical_problems = models.TextField(
+        verbose_name=_('Current physical problems'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list the current physical problems
+    """
+
+    past_physical_problems = models.TextField(
+        verbose_name=_('Past physical problems'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list the past physical problems
+    """
+
+    current_medication = models.TextField(
+        verbose_name=_('Current medication'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list of current medications
+    """
+
+    past_medication = models.TextField(
+        verbose_name=_('Past medication'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list of past medications
+    """
+
+    current_used_supplements = models.TextField(
+        verbose_name=_('Current used supplements'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list of current used supplements
+    """
+
+    past_used_supplements = models.TextField(
+        verbose_name=_('Past used supplements'),
+        blank=True,
+        null=True,
+    )
+    """
+    Free text field to list of past used supplements
+    """
+
+    #
+    # Training
+    #
+    trainings_goals = models.TextField(
+        verbose_name=_('Trainings Goals'),
+        blank=True,
+        null=True,
+    )
+    """
+    List of Trainings Goals
+    """
+
+    #
     # User statistics
     #
     age = IntegerField(
@@ -214,6 +302,14 @@ by the US Department of Agriculture. It is extremely complete, with around
         null=True,
     )
     """Gender"""
+
+    job = models.CharField(
+        max_length=60,
+        verbose_name=_('Job'),
+        help_text=_('The primary job'),
+        blank=True,
+    )
+    """Job"""
 
     sleep_hours = IntegerField(
         verbose_name=_('Hours of sleep'),

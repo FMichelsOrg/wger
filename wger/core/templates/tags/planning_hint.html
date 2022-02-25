@@ -1,0 +1,15 @@
+{% if current or past %}
+<details>
+    <summary><b>{{summary}}</b></summary>
+    <div style="margin-left:15pt">
+        {% if current %}
+        <u>Current</u>
+        <p>{{current}}</p>
+        {% endif %}
+        {% if past %}
+        <u>Past</u>
+        <p>{{past}}</p>
+        {% endif %}
+    </div>
+</details>
+{% endif %}

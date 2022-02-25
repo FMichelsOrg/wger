@@ -25,15 +25,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build apache image
-        uses: docker/build-push-action@v2.9.0
-        with:
-          context: .
-          push: true
-          file: extras/docker/demo/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          tags: wger/demo:latest,wger/demo:2.1-dev,wger/apache:latest,wger/apache:2.1-dev
-
       - name: Build dev image
         uses: docker/build-push-action@v2.9.0
         with:

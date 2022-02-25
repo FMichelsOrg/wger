@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
+{% load wger_extras %}
 
 {% block title %}{{ title }}{% endblock %}
 
+{#          #}
+{# Side bar #}
+{#          #}
+{% block sidebar %}
+{% planning_hints user_profile %}
+{% endblock %}
 
 {% block content %}
     <div class="list-group">

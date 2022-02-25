@@ -47,6 +47,7 @@ from django.views.generic import (
 # Third Party
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+from wger.core.models.profile import UserProfile
 
 # wger
 from wger.manager.forms import (
@@ -80,12 +81,15 @@ def overview(request):
 
     context = {}
 
+    userProfile = UserProfile.objects.get(user = request.user)
+
     workouts = Workout.objects.filter(user=request.user)
     (current_workout, schedule) = Schedule.objects.get_current_workout(request.user)
     context['workouts'] = workouts
     context['current_workout'] = current_workout
     context['title'] = _('Your workouts')
     context['template_overview'] = False
+    context['user_profile'] = userProfile
 
     return render(request, 'workout/overview.html', context)
 
@@ -132,12 +136,15 @@ def view(request, pk):
 
     uid, token = make_token(user)
 
+    userProfile = UserProfile.objects.get(user = user)
+
     template_data['workout'] = workout
     template_data['uid'] = uid
     template_data['token'] = token
     template_data['is_owner'] = is_owner
     template_data['owner_user'] = user
     template_data['show_shariff'] = is_owner
+    template_data['user_profile'] = userProfile
 
     return render(request, 'workout/view.html', template_data)
 

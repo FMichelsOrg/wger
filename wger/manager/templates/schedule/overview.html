@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
+{% load wger_extras %}
 
 {% block title %}{% translate "Your schedules" %}{% endblock %}
 
@@ -43,6 +44,7 @@ always do the same workouts in succession, e.g. A > B > C > A > B > C and so on.
 <p>{% blocktranslate %}The currently active schedule will remain active (and be
 shown e.g. in your dashboard) till it reaches the last workout or till you
 deactivate it, if it is a loop.{% endblocktranslate %}</p>
+{% planning_hints user_profile %}
 {% endblock %}
 
 

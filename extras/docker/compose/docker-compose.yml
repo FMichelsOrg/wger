@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   web:
-    image: wger/server:latest
+    build: ../development_debug
     volumes:
       - type: bind
         source: ../../../
@@ -10,6 +10,7 @@ services:
       - media:/home/wger/media
     ports:
       - "8000:8000"
+      - "9999:9999"
     env_file:
       - ./dev.env
     depends_on:

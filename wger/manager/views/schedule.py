@@ -52,6 +52,7 @@ from reportlab.platypus import (
     SimpleDocTemplate,
     Spacer,
 )
+from wger.core.models.profile import UserProfile
 
 # wger
 from wger.manager.forms import WorkoutScheduleDownloadForm
@@ -80,10 +81,13 @@ def overview(request):
     An overview of all the user's schedules
     """
 
+    userProfile = UserProfile.objects.get(user = request.user)
+
     template_data = {}
     template_data['schedules'] = (
         Schedule.objects.filter(user=request.user).order_by('-is_active', '-start_date')
     )
+    template_data['user_profile'] = userProfile
     return render(request, 'schedule/overview.html', template_data)
 
 
@@ -109,12 +113,15 @@ def view(request, pk):
 
     schedule.get_current_scheduled_workout()
 
+    userProfile = UserProfile.objects.get(user = request.user)
+
     template_data['uid'] = uid
     template_data['token'] = token
     template_data['is_owner'] = is_owner
     template_data['owner_user'] = user
     template_data['show_shariff'] = is_owner
     template_data['download_form'] = WorkoutScheduleDownloadForm()
+    template_data['user_profile'] = userProfile
 
     return render(request, 'schedule/view.html', template_data)
 

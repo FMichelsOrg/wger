@@ -91,6 +91,17 @@ class UserPreferencesForm(forms.ModelForm):
             'ro_access',
             'num_days_weight_reminder',
             'birthdate',
+            "gender",
+            "job",
+            "current_medical_reasons_not_to_exercise",
+            "past_medical_reasons_not_to_exercise",
+            "current_physical_problems",
+            "past_physical_problems",
+            "current_medication",
+            "past_medication",
+            "current_used_supplements",
+            "past_used_supplements",
+            "trainings_goals",
         )
 
     def __init__(self, *args, **kwargs):
@@ -104,7 +115,20 @@ class UserPreferencesForm(forms.ModelForm):
                     Column('first_name', css_class='form-group col-6 mb-0'),
                     Column('last_name', css_class='form-group col-6 mb-0'),
                     css_class='form-row'
-                ), HTML("<hr>")
+                ), 
+                "birthdate",
+                "gender",
+                "job",
+                "current_medical_reasons_not_to_exercise",
+                "past_medical_reasons_not_to_exercise",
+                "current_physical_problems",
+                "past_physical_problems",
+                "current_medication",
+                "past_medication",
+                "current_used_supplements",
+                "past_used_supplements",
+                "trainings_goals",
+                HTML("<hr>"),
             ),
             Fieldset(
                 _("Workout reminders"),
@@ -121,7 +145,6 @@ class UserPreferencesForm(forms.ModelForm):
                 "show_comments",
                 "show_english_ingredients",
                 "num_days_weight_reminder",
-                "birthdate",
             ), ButtonHolder(Submit('submit', _("Save"), css_class='btn-success btn-block'))
         )
 

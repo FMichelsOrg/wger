@@ -27,6 +27,7 @@ from django.utils.translation import (
     gettext_lazy as _,
     pgettext,
 )
+from wger.core.models.profile import UserProfile
 
 # wger
 from wger.manager.models import Day
@@ -127,6 +128,26 @@ def license_sidebar(license, author=None):
 
     return {'license': license, 'author': author}
 
+@register.inclusion_tag('tags/planning_hint.html')
+def planning_hint(summary=None, current=None, past=None):
+    """
+    Renders a trainings plan hint
+    """
+    return {
+        'summary': summary,
+        'current': current,
+        'past': past,
+    }
+
+@register.inclusion_tag('tags/planning_hints.html')
+def planning_hints(userProfile):
+    """
+    Renders the planning hints
+    """
+
+    return {
+        'user_profile': userProfile,
+    }
 
 @register.inclusion_tag('tags/muscles.html')
 def render_muscles(muscles=None, muscles_sec=None):
