@@ -8,32 +8,41 @@ on:
         - 'extras/docker/base/Dockerfile'
   schedule:
     - cron: '0 5 1 * *'
-  workflow_dispatch:  
+  workflow_dispatch: 
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: wger/base:latest
 
 jobs:
   path-context:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2.4.0
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1.2.0
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1.6.0
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Login docker
-        run: |
-          echo $CR_PAT | docker login ghcr.io -u FMichels --password-stdin
-        env:
-          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build base image
-        uses: docker/build-push-action@v2.9.0
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          push: true
           file: extras/docker/base/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          tags: wger/base:latest,wger/base:2.1-dev
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
