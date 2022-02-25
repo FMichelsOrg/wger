@@ -24,7 +24,6 @@ jobs:
         uses: docker/setup-buildx-action@v1.6.0
 
       - name: Login docker
-        working-directory: ./100_Docker/110_DockerWebservice
         run: |
           echo $CR_PAT | docker login ghcr.io -u FMichels --password-stdin
         env:
