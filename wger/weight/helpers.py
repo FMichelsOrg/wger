@@ -151,6 +151,7 @@ def group_log_entries(user, year, month, day=None):
         cache.set(cache_mapper.get_workout_log_list(log_hash), out)
     return out
 
+
 def approximate_rm(logs):
     """
     Approximate 1 rm from the last 0 rir unit
@@ -158,39 +159,115 @@ def approximate_rm(logs):
 
     # https://aesirsports.de/autoregulation-training-rpe-rir/
     trans_map = {
-        '0':   {1: 1.00, 2: 0.95, 3: 0.90, 4: 0.85, 5: 0.80, 6: 0.77, 7: 0.74, 8: 0.71, 9: 0.69, 10: 0.66, 11: 0.64, 12: 0.62},
-        '0.5': {1: 0.98, 2: 0.93, 3: 0.88, 4: 0.83, 5: 0.79, 6: 0.76, 7: 0.73, 8: 0.70, 9: 0.67, 10: 0.65, 11: 0.63},
-        '1':   {1: 0.95, 2: 0.90, 3: 0.85, 4: 0.80, 5: 0.77, 6: 0.74, 7: 0.71, 8: 0.69, 9: 0.66, 10: 0.64, 11: 0.62},
-        '1.5': {1: 0.93, 2: 0.88, 3: 0.83, 4: 0.79, 5: 0.76, 6: 0.73, 7: 0.70, 8: 0.67, 9: 0.65, 10: 0.63},
-        '2':   {1: 0.90, 2: 0.85, 3: 0.80, 4: 0.77, 5: 0.74, 6: 0.71, 7: 0.69, 8: 0.66, 9: 0.64, 10: 0.62},
-        '2.5': {1: 0.85, 2: 0.80, 3: 0.77, 4: 0.74, 5: 0.71, 6: 0.69, 7: 0.66, 8: 0.64, 9: 0.62},
-        '3':   {1: 0.80, 2: 0.77, 3: 0.74, 4: 0.71, 5: 0.69, 6: 0.66, 7: 0.64, 8: 0.62}
+        '0': {
+            1: 1.00,
+            2: 0.95,
+            3: 0.90,
+            4: 0.85,
+            5: 0.80,
+            6: 0.77,
+            7: 0.74,
+            8: 0.71,
+            9: 0.69,
+            10: 0.66,
+            11: 0.64,
+            12: 0.62
+        },
+        '0.5': {
+            1: 0.98,
+            2: 0.93,
+            3: 0.88,
+            4: 0.83,
+            5: 0.79,
+            6: 0.76,
+            7: 0.73,
+            8: 0.70,
+            9: 0.67,
+            10: 0.65,
+            11: 0.63
+        },
+        '1': {
+            1: 0.95,
+            2: 0.90,
+            3: 0.85,
+            4: 0.80,
+            5: 0.77,
+            6: 0.74,
+            7: 0.71,
+            8: 0.69,
+            9: 0.66,
+            10: 0.64,
+            11: 0.62
+        },
+        '1.5': {
+            1: 0.93,
+            2: 0.88,
+            3: 0.83,
+            4: 0.79,
+            5: 0.76,
+            6: 0.73,
+            7: 0.70,
+            8: 0.67,
+            9: 0.65,
+            10: 0.63
+        },
+        '2': {
+            1: 0.90,
+            2: 0.85,
+            3: 0.80,
+            4: 0.77,
+            5: 0.74,
+            6: 0.71,
+            7: 0.69,
+            8: 0.66,
+            9: 0.64,
+            10: 0.62
+        },
+        '2.5': {
+            1: 0.85,
+            2: 0.80,
+            3: 0.77,
+            4: 0.74,
+            5: 0.71,
+            6: 0.69,
+            7: 0.66,
+            8: 0.64,
+            9: 0.62
+        },
+        '3': {
+            1: 0.80,
+            2: 0.77,
+            3: 0.74,
+            4: 0.71,
+            5: 0.69,
+            6: 0.66,
+            7: 0.64,
+            8: 0.62
+        }
     }
 
     valid_logs = OrderedDict()
     for entry in logs:
         if entry.repetition_unit.name == 'Repetitions' and entry.weight_unit.name == 'kg' and (
-            (entry.rir ==   '0' and entry.reps <= 12) or 
-            (entry.rir == '0.5' and entry.reps <= 11) or 
-            (entry.rir ==   '1' and entry.reps <= 11) or 
-            (entry.rir == '1.5' and entry.reps <= 10) or 
-            (entry.rir ==   '2' and entry.reps <= 10) or 
-            (entry.rir == '2.5' and entry.reps <=  9) or 
-            (entry.rir ==   '3' and entry.reps <=  8)):
+            (entry.rir == '0' and entry.reps <= 12) or (entry.rir == '0.5' and entry.reps <= 11) or
+            (entry.rir == '1' and entry.reps <= 11) or (entry.rir == '1.5' and entry.reps <= 10) or
+            (entry.rir == '2' and entry.reps <= 10) or (entry.rir == '2.5' and entry.reps <= 9) or
+            (entry.rir == '3' and entry.reps <= 8)
+        ):
             if not valid_logs.get(entry.date):
                 valid_logs[entry.date] = entry
-            elif valid_logs[entry.date].rir > entry.rir or (valid_logs[entry.date].reps > entry.reps and valid_logs[entry.date].rir == entry.rir):
+            elif valid_logs[entry.date].rir > entry.rir or (
+                valid_logs[entry.date].reps > entry.reps and valid_logs[entry.date].rir == entry.rir
+            ):
                 valid_logs[entry.date] = entry
 
     if len(valid_logs) <= 0:
         return None
-    
+
     last_valid_log = valid_logs[next(reversed(valid_logs))]
     percent_max = trans_map[last_valid_log.rir][last_valid_log.reps]
     one_rm = last_valid_log.weight / decimal.Decimal(percent_max)
-    return round(one_rm,0)
-
-
+    return round(one_rm, 0)
 
 
 def process_log_entries(logs):
