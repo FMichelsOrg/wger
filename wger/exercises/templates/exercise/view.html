@@ -297,6 +297,11 @@ $(document).ready(function() {
 {% endif %}
 {% endcache %}
 
+{% if one_rm %}
+<h5 class="mt-4">Approximated 1-RM:</h5>
+{{one_rm}} kg
+{% endif %}
+
 {% if logs %}
     <h5 class="mt-4">{% translate "Weight log" %}:</h5>
     {% render_weight_log logs svg_uuid user %}

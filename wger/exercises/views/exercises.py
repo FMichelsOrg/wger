@@ -89,7 +89,7 @@ from wger.utils.language import (
     load_language,
 )
 from wger.utils.widgets import TranslatedSelectMultiple
-from wger.weight.helpers import process_log_entries
+from wger.weight.helpers import approximate_rm, process_log_entries
 
 
 logger = logging.getLogger(__name__)
@@ -150,10 +150,13 @@ def view(request, id, slug=None):
     # rendering in the D3 chart
     entry_log = []
     chart_data = []
+    one_rm = None
     if request.user.is_authenticated:
         logs = WorkoutLog.objects.filter(user=request.user, exercise=exercise)
         entry_log, chart_data = process_log_entries(logs)
+        one_rm = approximate_rm(logs)
 
+    template_data['one_rm'] = one_rm
     template_data['logs'] = entry_log
     template_data['json'] = chart_data
     template_data['svg_uuid'] = str(uuid.uuid4())
