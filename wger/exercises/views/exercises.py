@@ -89,7 +89,10 @@ from wger.utils.language import (
     load_language,
 )
 from wger.utils.widgets import TranslatedSelectMultiple
-from wger.weight.helpers import approximate_rm, process_log_entries
+from wger.weight.helpers import (
+    approximate_rm,
+    process_log_entries,
+)
 
 
 logger = logging.getLogger(__name__)

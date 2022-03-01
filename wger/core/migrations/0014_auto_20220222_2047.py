@@ -13,7 +13,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='current_medical_reasons_not_to_exercise',
-            field=models.TextField(blank=True, null=True, verbose_name='Current medical reasons not to exercise'),
+            field=models.TextField(
+                blank=True, null=True, verbose_name='Current medical reasons not to exercise'
+            ),
         ),
         migrations.AddField(
             model_name='userprofile',
@@ -33,12 +35,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='job',
-            field=models.CharField(blank=True, help_text='The primary job', max_length=60, verbose_name='Job'),
+            field=models.CharField(
+                blank=True, help_text='The primary job', max_length=60, verbose_name='Job'
+            ),
         ),
         migrations.AddField(
             model_name='userprofile',
             name='past_medical_reasons_not_to_exercise',
-            field=models.TextField(blank=True, null=True, verbose_name='Past medical reasons not to exercise'),
+            field=models.TextField(
+                blank=True, null=True, verbose_name='Past medical reasons not to exercise'
+            ),
         ),
         migrations.AddField(
             model_name='userprofile',
