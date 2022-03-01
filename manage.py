@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
 # Standard Library
+import os
 import sys
 
 # Django
 from django.core.management import execute_from_command_line
+
+# Third Party
+import debugpy
 
 # wger
 from wger.tasks import (
@@ -12,8 +16,6 @@ from wger.tasks import (
     setup_django_environment,
 )
 
-import debugpy
-import os
 
 # optionally check to see what env you're running in, you probably only want this for 
 # local development, for example: if os.getenv("MY_ENV") == "dev":

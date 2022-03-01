@@ -151,6 +151,7 @@ def group_log_entries(user, year, month, day=None):
         cache.set(cache_mapper.get_workout_log_list(log_hash), out)
     return out
 
+
 def getPercentOfOneRM(rir, reps):
     """
     Get the percent of rm based on the rir and reps
@@ -245,8 +246,9 @@ def getPercentOfOneRM(rir, reps):
         }
     }
     if not (rir in trans_map and reps in trans_map[rir]):
-        return None 
+        return None
     return trans_map[rir][reps]
+
 
 def approximate_rm(logs):
     """
