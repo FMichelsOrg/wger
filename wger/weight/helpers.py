@@ -151,9 +151,9 @@ def group_log_entries(user, year, month, day=None):
         cache.set(cache_mapper.get_workout_log_list(log_hash), out)
     return out
 
-def approximate_rm(logs):
+def getPercentOfOneRM(rir, reps):
     """
-    Approximate 1 rm from the last 0 rir unit
+    Get the percent of rm based on the rir and reps
     """
 
     # https://aesirsports.de/autoregulation-training-rpe-rir/
@@ -166,6 +166,14 @@ def approximate_rm(logs):
         '2.5': {1: 0.85, 2: 0.80, 3: 0.77, 4: 0.74, 5: 0.71, 6: 0.69, 7: 0.66, 8: 0.64, 9: 0.62},
         '3':   {1: 0.80, 2: 0.77, 3: 0.74, 4: 0.71, 5: 0.69, 6: 0.66, 7: 0.64, 8: 0.62}
     }
+    if not (rir in trans_map and reps in trans_map[rir]):
+        return None 
+    return trans_map[rir][reps]
+
+def approximate_rm(logs):
+    """
+    Approximate 1 rm from the last 0 rir unit
+    """
 
     valid_logs = OrderedDict()
     for entry in logs:
@@ -186,7 +194,7 @@ def approximate_rm(logs):
         return None
     
     last_valid_log = valid_logs[next(reversed(valid_logs))]
-    percent_max = trans_map[last_valid_log.rir][last_valid_log.reps]
+    percent_max = getPercentOfOneRM(last_valid_log.rir, last_valid_log.reps)
     one_rm = last_valid_log.weight / decimal.Decimal(percent_max)
     return round(one_rm,0)
 

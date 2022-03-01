@@ -18,6 +18,7 @@ This file contains forms used in the application
 """
 
 # Django
+import decimal
 from django.forms import (
     BooleanField,
     CharField,
@@ -63,6 +64,10 @@ from wger.utils.widgets import (
     ExerciseAjaxSelect,
     TranslatedSelectMultiple,
 )
+
+from crispy_forms.utils import TEMPLATE_PACK
+
+from wger.weight.helpers import approximate_rm, getPercentOfOneRM
 
 
 class WorkoutForm(ModelForm):
@@ -136,6 +141,35 @@ class SetForm(ModelForm):
 
 class SettingForm(ModelForm):
 
+    def __init__(self, user=None, *args, **kwargs):
+        super(SettingForm, self).__init__(*args, **kwargs)
+        rir_field = self.base_fields['rir']
+        if self.instance.set_id:
+            user = self.instance.set.exerciseday.training.user
+            exercise = self.instance.exercise
+            reps = self.instance.reps
+            logs = WorkoutLog.objects.filter(user=user, exercise=exercise)
+            oneRM = approximate_rm(logs)
+        else:
+            oneRM = None
+        new_options = []
+        for choice in rir_field.choices:
+            if choice[0] and oneRM:
+                percent = getPercentOfOneRM(choice[0], reps)
+                if percent:
+                    approxKg = round(decimal.Decimal(percent) * oneRM, 0)
+                    new_label = choice[0] + ' (ca. ' + str(approxKg) + ' kg)'
+                else:
+                    new_label = choice[1]
+            else:
+                new_label = choice[1]
+            new_options.append([choice[0], new_label])
+        self.fields['rir'] = ChoiceField(
+            label=_('RiR'),
+            choices=new_options,
+            required=False,
+        )
+
     class Meta:
         model = Setting
         exclude = ('set', 'exercise', 'order', 'name')
@@ -183,7 +217,6 @@ class WorkoutLogForm(ModelForm):
     class Meta:
         model = WorkoutLog
         exclude = ('workout', )
-
 
 class WorkoutLogFormHelper(FormHelper):
 
