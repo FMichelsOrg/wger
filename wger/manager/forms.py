@@ -17,8 +17,10 @@
 This file contains forms used in the application
 """
 
-# Django
+# Standard Library
 import decimal
+
+# Django
 from django.forms import (
     BooleanField,
     CharField,
@@ -44,6 +46,7 @@ from crispy_forms.layout import (
     Row,
     Submit,
 )
+from crispy_forms.utils import TEMPLATE_PACK
 
 # wger
 from wger.core.models import (
@@ -64,10 +67,10 @@ from wger.utils.widgets import (
     ExerciseAjaxSelect,
     TranslatedSelectMultiple,
 )
-
-from crispy_forms.utils import TEMPLATE_PACK
-
-from wger.weight.helpers import approximate_rm, getPercentOfOneRM
+from wger.weight.helpers import (
+    approximate_rm,
+    getPercentOfOneRM,
+)
 
 
 class WorkoutForm(ModelForm):
@@ -217,6 +220,7 @@ class WorkoutLogForm(ModelForm):
     class Meta:
         model = WorkoutLog
         exclude = ('workout', )
+
 
 class WorkoutLogFormHelper(FormHelper):
 
