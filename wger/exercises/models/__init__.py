@@ -20,6 +20,7 @@ from .category import ExerciseCategory
 from .comment import ExerciseComment
 from .equipment import Equipment
 from .exercise import Exercise
+from .exercise_alias import Alias
 from .image import ExerciseImage
 from .muscle import Muscle
 from .variation import Variation
