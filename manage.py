@@ -7,14 +7,15 @@ import sys
 # Django
 from django.core.management import execute_from_command_line
 
-# Third Party
-#import debugpy
-
 # wger
 from wger.tasks import (
     get_path,
     setup_django_environment,
 )
+
+
+#import debugpy
+
 
 
 # optionally check to see what env you're running in, you probably only want this for 
