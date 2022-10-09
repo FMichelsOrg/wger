@@ -64,6 +64,9 @@ Developers
 * absolutely-not-bot - https://github.com/absolutely-not-bot
 * Jaspreet Dhillon - https://github.com/jaspreetsd902
 * Sofiko Alaverdashvili - https://github.com/sophiamartelli
+* Kade - https://github.com/kp5431/
+* Tom Bowyer - https://github.com/ImTheTom
+* Rohan Karan - https://github.com/RohanKaran
 
 Translators
 -----------
